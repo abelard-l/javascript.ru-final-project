@@ -23,8 +23,12 @@ export class App {
   } 
   
   tradeItem(id) {
-    const coin = this._data.find(coin => coin.id === id);
-    this._tradeWidget.trade(coin)
+    this._coin = this._data.find(coin => coin.id === id);
+    this._tradeWidget.trade(this._coin)
+  }
+
+  addItemToPortfolio(value) {
+    this._portfolio.addItem(this._coin.name, value, this._coin.price);
   }
 
   _initPortfolio() {
@@ -37,6 +41,7 @@ export class App {
   _initTradeWidget() {
     this._tradeWidget = new TradeWidget({
       element: this._el.querySelector('[data-element="trade-widget"]'),
+      onConfirm: this.addItemToPortfolio.bind(this),
     })
   }
 
